@@ -44,7 +44,7 @@ class AppTheme{
       ),
       scaffoldBackgroundColor: ColorsConstant.backgroundDark,
       appBarTheme: AppBarTheme(
-        backgroundColor: ColorsConstant.primaryDark,
+        backgroundColor: ColorsConstant.backgroundDark,
         iconTheme: IconThemeData(color: ColorsConstant.onPrimaryDark),
       ),
       textTheme: AppTextTheme.getTextTheme(ColorsConstant.onSurfaceDark),
