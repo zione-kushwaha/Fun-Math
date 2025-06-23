@@ -63,7 +63,7 @@ class _LearningSectionState extends State<LearningSection>
               TextButton(
                 onPressed: () {},
                 child: Text(
-                  'View All',
+                  'First Steps',
                   style: TextStyle(
                     color: primaryColor,
                     fontWeight: FontWeight.w600,
@@ -175,49 +175,56 @@ class _LearningSectionState extends State<LearningSection>
           ),
         ),
         
-        const SizedBox(height: 16),
+      
         
         // Mini cards row
-        SizedBox(
-          height: 100,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            children: [
-              _buildMiniCard(
-                context,
-                icon: Icons.calculate_rounded,
-                title: 'Addition',
-                color: const Color(0xFF6A5AE0),
-                isDarkMode: isDarkMode,
-              ),
-              _buildMiniCard(
-                context,
-                icon: Icons.remove_rounded,
-                title: 'Subtraction',
-                color: const Color(0xFFFF8FA2),
-                isDarkMode: isDarkMode,
-              ),
-              _buildMiniCard(
-                context,
-                icon: Icons.close_rounded,
-                title: 'Multiplication',
-                color: const Color(0xFFFFD56F),
-                isDarkMode: isDarkMode,
-              ),
-              _buildMiniCard(
-                context,
-                icon: Icons.percent_rounded,
-                title: 'Division',
-                color: const Color(0xFF92E3A9),
-                isDarkMode: isDarkMode,
-              ),
-            ].map((card) => Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: card,
-            )).toList(),
+       
+          SizedBox(
+            height: 320,
+            child: GridView(
+              
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
+                              mainAxisExtent: 130,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,),
+            
+                physics: const NeverScrollableScrollPhysics(),
+              children: [
+                _buildMiniCard(
+                  context,
+                  icon: Icons.calculate_rounded,
+                  title: 'Addition',
+                  color: const Color(0xFF6A5AE0),
+                  isDarkMode: isDarkMode,
+                ),
+                _buildMiniCard(
+                  context,
+                  icon: Icons.remove_rounded,
+                  title: 'Subtraction',
+                  color: const Color(0xFFFF8FA2),
+                  isDarkMode: isDarkMode,
+                ),
+                _buildMiniCard(
+                  context,
+                  icon: Icons.close_rounded,
+                  title: 'Multiplication',
+                  color: const Color(0xFFFFD56F),
+                  isDarkMode: isDarkMode,
+                ),
+                _buildMiniCard(
+                  context,
+                  icon: Icons.percent_rounded,
+                  title: 'Division',
+                  color: const Color(0xFF92E3A9),
+                  isDarkMode: isDarkMode,
+                ),
+              ].map((card) => Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: card,
+              )).toList(),
+            ),
           ),
-        ),
+        
       ],
     );
   }

@@ -36,8 +36,12 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 30),
 
                     // Math Character with Speech Bubble
-                    _buildMathCharacter(context, isDarkMode),
-                    const SizedBox(height: 30),
+                      _buildMathCharacter(context, isDarkMode),
+                      const SizedBox(height: 25),
+
+                     const LearningSection(),
+                     const SizedBox(height: 20),
+
 
                     // Game Categories Section
                     _buildSectionHeader(
@@ -47,6 +51,8 @@ class HomeScreen extends ConsumerWidget {
                       iconColor: const Color(0xFFFF8FA2),
                     ),
                     const SizedBox(height: 16),
+
+                    
                     DifficultySelector(),
 
                     // Game Cards Grid with fun shapes
@@ -91,8 +97,8 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 24),
 
                     // Learning Section with fun illustrations
-                    const LearningSection(),
-                    const SizedBox(height: 40),
+                   
+                 
 
                     // Footer with animated math symbols and fun message
                     _buildFooter(context, isDarkMode),
@@ -189,18 +195,11 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     onPressed: () => themeNotifier.toggleTheme(),
                   ),
-          //  Icon(Iconsax.lamp, color: colorScheme.onPrimary, size: 28),
+        
 
                 ],
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Learning math is fun!',
-                style: TextStyle(
-                  color: colorScheme.onPrimary.withOpacity(0.9),
-                  fontSize: 16,
-                ),
-              ),
+             
             ],
           ),
         ),
