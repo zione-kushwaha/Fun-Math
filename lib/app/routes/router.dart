@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fun_math/core/data/difficulty_type.dart';
 import 'package:fun_math/feature/games/number_puzzle/feature/puzzle/presentation/screen/number_puzzle_screen.dart';
 import 'package:go_router/go_router.dart';
+import '../../feature/learning/addition/presentation/screens/addition_learning_screen.dart';
+import '../../feature/learning/addition/presentation/screens/counting_adventure_screen.dart';
+import '../../feature/learning/addition/presentation/screens/number_friends_screen.dart';
+import '../../feature/learning/addition/presentation/screens/addition_machine_screen.dart';
+import '../../feature/learning/addition/presentation/screens/ten_frame_screen.dart';
 import '../../feature/games/brain_boost/view/brain_boost_view.dart';
 import '../../feature/games/brain_boost/feature/magic_triangle/presentation/screen/magic_triangle_screen.dart';
 import '../../feature/games/brain_boost/feature/number_pyramid/presentation/screen/number_pyramid_screen.dart';
@@ -237,6 +242,32 @@ class AppRouter{
             primaryColor: Colors.green,
             secondaryColor: Colors.greenAccent,
           );
+        },
+      ),      GoRoute(
+        path: '/learning/addition',
+        builder: (context, state) {
+          return const AdditionLearningScreen();
+        },
+      ),      GoRoute(
+        path: '/learning/addition/counting_adventure',
+        builder: (context, state) {
+          return const CountingAdventureScreen();
+        },
+      ),      GoRoute(
+        path: '/learning/addition/number_friends',
+        builder: (context, state) {
+          return const NumberFriendsScreen();
+        },
+      ),      GoRoute(
+        path: '/learning/addition/addition_machine',
+        builder: (context, state) {
+          return const AdditionMachineScreen();
+        },
+      ),
+      GoRoute(
+        path: '/learning/addition/ten_frame',
+        builder: (context, state) {
+          return const TenFrameScreen();
         },
       ),
       GoRoute(
