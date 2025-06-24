@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fun_math/core/data/difficulty_type.dart';
 import 'package:fun_math/feature/games/math_race/feature/square_root/presentation/provider/square_root_providers.dart';
 
 class SquareRootScreen extends ConsumerWidget {
@@ -9,7 +10,7 @@ class SquareRootScreen extends ConsumerWidget {
   const SquareRootScreen({
     Key? key,
     this.primaryColor = Colors.purple,
-    this.secondaryColor = Colors.purpleAccent,
+    this.secondaryColor = Colors.purpleAccent, required DifficultyType difficulty,
   }) : super(key: key);
 
   @override

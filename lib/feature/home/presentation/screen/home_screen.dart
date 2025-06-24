@@ -6,6 +6,8 @@ import 'package:fun_math/core/theme/provider/theme_provider.dart';
 import 'package:iconsax/iconsax.dart';
 import '../widgets/game_card.dart';
 import '../widgets/learning_section.dart';
+import '../widgets/animated_header.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -111,100 +113,8 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
   }
-
   Widget _buildAppBar(BuildContext context, bool isDarkMode, ThemeProvider themeNotifier, ColorScheme colorScheme) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: isDarkMode
-              ? [
-                  const Color(0xFF282356),
-                  const Color(0xFF121212),
-                ]
-              : [
-                  const Color(0xFF6A5AE0),
-                  const Color(0xFF8B80FF),
-                ],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Hero(
-                        tag: 'math-logo',
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: colorScheme.onPrimary.withOpacity(0.2),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: colorScheme.onPrimary.withOpacity(0.4),
-                              width: 2,
-                            ),
-                          ),
-                          child: Icon(
-                            Iconsax.math,
-                            color: colorScheme.onPrimary,
-                            size: 28,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        'Fun Math',
-                        style: TextStyle(
-                          color: colorScheme.onPrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          shadows: isDarkMode
-                              ? [
-                                  Shadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    blurRadius: 4,
-                                    offset: const Offset(2, 2),
-                                  )
-                                ]
-                              : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    icon: Icon(
-                    
-                      isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                      color: colorScheme.onPrimary,
-                      size: 28,
-                    ),
-                    onPressed: () => themeNotifier.toggleTheme(),
-                  ),
-        
-
-                ],
-              ),
-             
-            ],
-          ),
-        ),
-      ),
-    );
+    return AnimatedHeader(userName: "Alex").animate().fadeIn(duration: 600.ms).slideY(begin: -0.2, end: 0, duration: 700.ms, curve: Curves.easeOutQuad);
   }
 
   Widget _buildWelcomeSection(BuildContext context, bool isDarkMode) {

@@ -13,7 +13,7 @@ class MentalArithmeticScreen extends ConsumerWidget {
   const MentalArithmeticScreen({
     Key? key,
     this.primaryColor = Colors.blue,
-    this.secondaryColor = Colors.lightBlueAccent,
+    this.secondaryColor = Colors.lightBlueAccent, required DifficultyType difficulty,
   }) : super(key: key);
 
   @override
