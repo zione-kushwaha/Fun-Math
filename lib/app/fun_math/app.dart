@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fun_math/app/navigation/router.dart';
 import 'package:fun_math/core/theme/theme.dart' as app_theme;
 import 'package:fun_math/core/localization/app_localizations.dart';
-import '../core/theme/provider/theme_provider.dart' as theme_provider;
+import '../../core/theme/provider/theme_provider.dart' as theme_provider;
 
 class FunMathApp extends ConsumerWidget {
   const FunMathApp({super.key});

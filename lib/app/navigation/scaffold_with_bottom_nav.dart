@@ -95,7 +95,7 @@ class _ScaffoldWithBottomNavState extends ConsumerState<ScaffoldWithBottomNav> w
             color: isDarkMode ? colorScheme.surface : Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: .05),
                 blurRadius: 10,
                 spreadRadius: 0,
                 offset: const Offset(0, -5),
@@ -142,8 +142,8 @@ class _ScaffoldWithBottomNavState extends ConsumerState<ScaffoldWithBottomNav> w
                 backgroundColor: Colors.transparent,
                 selectedItemColor: colorScheme.primary,
                 unselectedItemColor: isDarkMode
-                    ? Colors.white.withOpacity(0.6)
-                    : Colors.black.withOpacity(0.4),
+                    ? Colors.white.withValues(alpha: .6)
+                    : Colors.black.withValues(alpha: .4),
                 elevation: 0,
                 showSelectedLabels: true,
                 showUnselectedLabels: true,

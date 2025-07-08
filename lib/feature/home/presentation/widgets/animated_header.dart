@@ -6,11 +6,9 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 
 class AnimatedHeader extends StatelessWidget {
   const AnimatedHeader({
-    Key? key,
-    required this.userName,
-  }) : super(key: key);
+    super.key,
+  });
 
-  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +17,9 @@ class AnimatedHeader extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20).copyWith(
+        top: 40
+      ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isDarkMode
@@ -62,7 +62,7 @@ class AnimatedHeader extends StatelessWidget {
                       .shake(duration: 700.ms, hz: 1),
                   const SizedBox(width: 12),
                   Text(
-                    'Hello, $userName!',
+                    'Hello, Learner!',
                     style: textTheme.titleLarge?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -118,73 +118,11 @@ class AnimatedHeader extends StatelessWidget {
               fontSize: 16,
             ),
           ).animate().fadeIn(duration: 800.ms, delay: 500.ms),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: _buildActionButton(
-                  context,
-                  label: 'Daily Challenge',
-                  icon: Iconsax.calendar_1,
-                  onPressed: () {
-                    // Navigate to daily challenge
-                  },
-                ).animate().slideX(
-                      begin: -1,
-                      end: 0,
-                      duration: 600.ms,
-                      delay: 600.ms,
-                      curve: Curves.easeOutQuad,
-                    ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildActionButton(
-                  context,
-                  label: 'Continue',
-                  icon: Iconsax.play_circle,
-                  onPressed: () {
-                    // Continue learning
-                  },
-                ).animate().slideX(
-                      begin: 1,
-                      end: 0,
-                      duration: 600.ms,
-                      delay: 600.ms,
-                      curve: Curves.easeOutQuad,
-                    ),
-              ),
-            ],
-          ),
+        
         ],
       ),
     );
   }
 
-  Widget _buildActionButton(
-    BuildContext context, {
-    required String label,
-    required IconData icon,
-    required VoidCallback onPressed,
-  }) {
-    return ElevatedButton.icon(
-      onPressed: onPressed,
-      icon: Icon(icon, size: 18, color: Colors.white),
-      label: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white.withOpacity(0.2),
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-    );
-  }
+ 
 }
