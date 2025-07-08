@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../../core/shared/game_option_card.dart';
+
 class NumberPuzzleViewScreen extends StatelessWidget {
   const NumberPuzzleViewScreen({super.key});
 
@@ -44,7 +46,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                         ]
                       : [
                           theme.primaryColor,
-                          theme.primaryColor.withOpacity(0.7),
+                          theme.primaryColor.withValues(alpha:0.7),
                           Colors.deepPurple.shade400,
                         ],
                     begin: Alignment.topLeft,
@@ -95,7 +97,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
                   children: [
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Iconsax.calculator,
                       title: 'Calculator',
                       subtitle: 'Solve math problems',
@@ -103,7 +105,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                       delay: 0,
                       onTap: () => context.push('/calculator'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.check_circle,
                       title: 'Correct Answer',
                       subtitle: 'Find the right solution',
@@ -111,7 +113,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                       delay: 100,
                       onTap: () => context.push('/correct_answer'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.question_mark,
                       title: 'Guess Sign',
                       subtitle: 'What\'s the operator?',
@@ -119,7 +121,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                       delay: 200,
                       onTap: () => context.push('/guess_sign'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.timer,
                       title: 'Quick Calculation',
                       subtitle: 'Beat the clock!',
@@ -127,7 +129,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                       delay: 300,
                       onTap: () => context.push('/quick_calculation'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.extension,
                       title: 'Puzzle Game',
                       subtitle: 'Solve the number puzzle',
@@ -135,7 +137,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                       delay: 400,
                       onTap: () => context.push('/puzzle_game'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.grid_view_rounded,
                       title: 'Math Memory',
                       subtitle: 'Match the pairs',
@@ -307,191 +309,6 @@ class __AnimatedTitleState extends State<_AnimatedTitle>
           ),
         );
       },
-    );
-  }
-}
-
-class _GameOptionCard extends StatefulWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color color;
-  final VoidCallback onTap;
-  final int delay;
-
-  const _GameOptionCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.color,
-    required this.onTap,
-    required this.delay,
-  });
-
-  @override
-  __GameOptionCardState createState() => __GameOptionCardState();
-}
-
-class __GameOptionCardState extends State<_GameOptionCard> 
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scale;
-  late Animation<double> _opacity;
-  late Animation<Offset> _offset;
-  
-  bool _isHovering = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
-      vsync: this,
-    );
-    
-    _scale = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOutBack,
-      ),
-    );
-    
-    _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeIn,
-      ),
-    );
-    
-    _offset = Tween<Offset>(
-      begin: const Offset(0, 0.5),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-    
-    Future.delayed(Duration(milliseconds: widget.delay), () {
-      if (mounted) _controller.forward();
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    
-    return SlideTransition(
-      position: _offset,
-      child: ScaleTransition(
-        scale: _scale,
-        child: FadeTransition(
-          opacity: _opacity,
-          child: MouseRegion(
-            onEnter: (_) => setState(() => _isHovering = true),
-            onExit: (_) => setState(() => _isHovering = false),
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: widget.onTap,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: isDark 
-                    ? theme.colorScheme.surface 
-                    : Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: widget.color.withOpacity(_isHovering ? 0.4 : 0.2),
-                      blurRadius: _isHovering ? 16 : 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                  border: Border.all(
-                    color: widget.color.withOpacity(0.3),
-                    width: 1,
-                  ),
-                ),
-               
-                child: Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: widget.color.withOpacity(_isHovering ? 0.3 : 0.2),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: widget.color.withOpacity(_isHovering ? 0.3 : 0.2),
-                              blurRadius: 8,
-                              offset: const Offset(2, 2),
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          widget.icon,
-                          size: 32,
-                          color: widget.color,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        widget.title,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: theme.colorScheme.onSurface,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      FittedBox(
-                        child: Text(
-                          widget.subtitle,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withOpacity(0.7),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      AnimatedOpacity(
-                        opacity: _isHovering ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 200),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: widget.color.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            'Tap to play!',
-                            style: TextStyle(
-                              color: widget.color,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

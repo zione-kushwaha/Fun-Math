@@ -23,7 +23,7 @@ class GameCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push(route),
       child: Container(
-        decoration: BoxDecoration(          color: color.withOpacity(0.15),
+        decoration: BoxDecoration(          color: color.withValues(alpha: .15),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: color, width: 2),
         ),

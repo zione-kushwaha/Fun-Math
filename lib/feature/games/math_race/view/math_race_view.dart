@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_math/core/theme/provider/theme_provider.dart' as theme_provider;
+import 'package:fun_math/core/shared/game_option_card.dart';
 
 class MathRaceView extends ConsumerWidget {
   const MathRaceView({super.key});
@@ -86,13 +87,13 @@ class MathRaceView extends ConsumerWidget {
                   gradient: LinearGradient(
                     colors: isDark
                       ? [
-                          Colors.blue[900]!,
-                          Colors.blue[800]!,
+                         Colors.grey[900]!,
+                          Colors.grey[800]!,
                         ]
                       : [
-                          Color(0xFF90CAF9),
-                          Color(0xFF42A5F5),
-                          Colors.blue.shade500,
+                          theme.primaryColor,
+                          theme.primaryColor.withValues(alpha:0.7),
+                          Colors.deepPurple.shade400,
                         ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -125,9 +126,11 @@ class MathRaceView extends ConsumerWidget {
                     mainAxisSpacing: 20,
                     crossAxisSpacing: 20,
                   ),
-                  children: [                    _GameOptionCard(
+                  children: [                    
+                    GameOptionCard(
                       icon: Icons.directions_run,
                       title: 'Math Race',
+                      subtitle: 'Speed challenge',
                       color: Colors.blue,
                       delay: 0,
                       onTap: () {
@@ -135,37 +138,42 @@ class MathRaceView extends ConsumerWidget {
                         _showDifficultyDialog(context, '/math/race');
                       },
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.calculate,
                       title: 'Mental Arithmetic',
+                      subtitle: 'Quick calculations',
                       color: Colors.green,
                       delay: 100,
-                      onTap: () => context.push('/math/mental_arithmetic'),
+                      onTap: () => context.push('/mental_arithmetic'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.square_foot,
                       title: 'Square Roots',
+                      subtitle: 'Root calculations',
                       color: Colors.purple,
                       delay: 200,
-                      onTap: () => context.push('/math/square_root'),
+                      onTap: () => context.push('/square_root'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.grid_on,
                       title: 'Math Grid',
+                      subtitle: 'Grid puzzles',
                       color: Colors.orange,
                       delay: 300,
-                      onTap: () => context.push('/math/math_grid'),
+                      onTap: () => context.push('/math_grid'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.join_inner,
                       title: 'Math Pairs',
+                      subtitle: 'Matching pairs',
                       color: Colors.red,
                       delay: 400,
-                      onTap: () => context.push('/math/math_pairs'),
+                      onTap: () => context.push('/math_pairs'),
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),                _BouncingButton(
+                const SizedBox(height: 30),             
+                   BouncingButton(
                   onPressed: () {
                     final games = ['/math/race', '/math/mental_arithmetic', '/math/square_root', '/math/math_grid', '/math/math_pairs'];
                     final random = games[DateTime.now().millisecond % games.length];
@@ -220,181 +228,6 @@ class _AnimatedTitle extends StatelessWidget {
   }
 }
 
-class _GameOptionCard extends StatefulWidget {
-  final IconData icon;
-  final String title;
-  final Color color;
-  final int delay;
-  final VoidCallback onTap;
-
-  const _GameOptionCard({
-    required this.icon,
-    required this.title,
-    required this.color,
-    required this.delay,
-    required this.onTap,
-  });
-
-  @override
-  State<_GameOptionCard> createState() => _GameOptionCardState();
-}
-
-class _GameOptionCardState extends State<_GameOptionCard> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _scaleAnimation;
-  
-  @override
-  void initState() {
-    super.initState();
-    
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-    
-    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
-    
-    Future.delayed(Duration(milliseconds: widget.delay), () {
-      if (mounted) {
-        _controller.forward();
-      }
-    });
-  }
-  
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final backgroundColor = isDark ? Colors.grey[800] : Colors.white;
-    
-    return ScaleTransition(
-      scale: _scaleAnimation,
-      child: InkWell(
-        onTap: widget.onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: widget.color.withOpacity(0.3),
-                spreadRadius: 1,
-                blurRadius: 10,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: widget.color.withOpacity(0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  widget.icon,
-                  size: 40,
-                  color: widget.color,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                widget.title,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: widget.color.withOpacity(0.1),
-                ),
-                child: Text(
-                  'Play Now',
-                  style: TextStyle(
-                    color: widget.color,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BouncingButton extends StatefulWidget {
-  final VoidCallback onPressed;
-  final Widget child;
-  
-  const _BouncingButton({required this.onPressed, required this.child});
-  
-  @override
-  State<_BouncingButton> createState() => _BouncingButtonState();
-}
-
-class _BouncingButtonState extends State<_BouncingButton> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _scaleAnimation;
-  
-  @override
-  void initState() {
-    super.initState();
-    
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-    
-    _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.1), weight: 1),
-      TweenSequenceItem(tween: Tween(begin: 1.1, end: 1.0), weight: 1),
-    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-    
-    _controller.repeat();
-  }
-  
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scaleAnimation,
-      child: ElevatedButton(
-        onPressed: widget.onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          elevation: 4,
-        ),
-        child: widget.child,
-      ),
-    );
-  }
-}
-
 class _InfoCard extends StatelessWidget {
   final String title;
   final String content;
@@ -409,8 +242,8 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.primary.withOpacity(0.7),
-            Theme.of(context).colorScheme.primary.withOpacity(0.3),
+            Theme.of(context).colorScheme.primary.withValues(alpha: .7),
+            Theme.of(context).colorScheme.primary.withValues(alpha: .3),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -418,7 +251,7 @@ class _InfoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: .1),
             blurRadius: 10,
             spreadRadius: 1,
           ),
@@ -443,7 +276,7 @@ class _InfoCard extends StatelessWidget {
           Text(
             content,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.9),
+              color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: .9),
               fontSize: 16,
             ),
             textAlign: TextAlign.center,
@@ -476,7 +309,7 @@ class _DifficultyButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           elevation: 4,
-          shadowColor: color.withOpacity(0.6),
+          shadowColor: color.withValues(alpha: .6),
         ),
         child: Text(
           text,

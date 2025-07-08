@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_math/core/theme/provider/theme_provider.dart' as theme_provider;
 
+import '../../../../core/shared/game_option_card.dart';
+
 class MemoryMatchView extends ConsumerWidget {
   const MemoryMatchView({super.key});
 
@@ -39,14 +41,14 @@ class MemoryMatchView extends ConsumerWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: isDark
-                      ? [
-                          Colors.purple[900]!,
-                          Colors.purple[800]!,
+                       ? [
+                         Colors.grey[900]!,
+                          Colors.grey[800]!,
                         ]
                       : [
-                          Colors.purple[300]!,
-                          Colors.purple[500]!,
-                          Colors.purple.shade500,
+                          theme.primaryColor,
+                          theme.primaryColor.withValues(alpha:0.7),
+                          Colors.deepPurple.shade400,
                         ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -81,44 +83,50 @@ class MemoryMatchView extends ConsumerWidget {
                     crossAxisSpacing: 20,
                   ),
                   children: [
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.grid_on,
                       title: 'Number Match',
+                      subtitle: 'Match numbers correctly',
                       color: Colors.purple,
                       delay: 0,
                       onTap: () => _showDifficultyDialog(context, '/memory/number_match'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.calculate,
                       title: 'Equation Match',
+                      subtitle: 'Match equations with answers',
                       color: Colors.indigo,
                       delay: 100,
                       onTap: () => _showDifficultyDialog(context, '/memory/equation_match'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.emoji_objects,
                       title: 'Visual Memory',
+                      subtitle: 'Remember visual patterns',
                       color: Colors.teal,
                       delay: 200,
                       onTap: () => _showDifficultyDialog(context, '/memory/visual_memory'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.timer,
                       title: 'Speed Memory',
+                      subtitle: 'Test your memory speed',
                       color: Colors.amber,
                       delay: 300,
                       onTap: () => _showDifficultyDialog(context, '/memory/speed_memory'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.swap_calls,
                       title: 'Sequence Match',
+                      subtitle: 'Remember sequences',
                       color: Colors.pink,
                       delay: 400,
                       onTap: () => _showDifficultyDialog(context, '/memory/sequence_match'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.pattern_rounded,
                       title: 'Pattern Memory',
+                      subtitle: 'Memory pattern challenge',
                       color: Colors.green,
                       delay: 500,
                       onTap: () => _showDifficultyDialog(context, '/memory/pattern_memory'),
