@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fun_math/core/shared/surprise_me.dart';
 import 'package:go_router/go_router.dart';
-import 'package:fun_math/core/presentation/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_math/core/shared/game_option_card.dart';
 
@@ -11,9 +10,6 @@ class BrainBoostView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.sizeOf(context);
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),

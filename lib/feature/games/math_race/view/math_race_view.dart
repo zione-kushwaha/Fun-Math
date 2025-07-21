@@ -2,65 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fun_math/core/shared/surprise_me.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fun_math/core/theme/provider/theme_provider.dart'
-    as theme_provider;
 import 'package:fun_math/core/shared/game_option_card.dart';
 
 class MathRaceView extends ConsumerWidget {
   const MathRaceView({super.key});
 
-  // Show difficulty selection dialog
-  void _showDifficultyDialog(BuildContext context, String routePath) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Select Difficulty'),
-          backgroundColor: isDark ? Colors.grey[850] : Colors.white,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _DifficultyButton(
-                text: 'Easy',
-                color: Colors.green,
-                onPressed: () {
-                  Navigator.pop(context);
-                  context.push('$routePath?difficulty=easy');
-                },
-              ),
-              const SizedBox(height: 12),
-              _DifficultyButton(
-                text: 'Medium',
-                color: Colors.orange,
-                onPressed: () {
-                  Navigator.pop(context);
-                  context.push('$routePath?difficulty=medium');
-                },
-              ),
-              const SizedBox(height: 12),
-              _DifficultyButton(
-                text: 'Hard',
-                color: Colors.red,
-                onPressed: () {
-                  Navigator.pop(context);
-                  context.push('$routePath?difficulty=hard');
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.sizeOf(context);
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -109,10 +58,7 @@ class MathRaceView extends ConsumerWidget {
                       subtitle: 'Speed challenge',
                       color: Colors.blue,
                       delay: 0,
-                      onTap: () {
-                        // Show difficulty selection dialog
-                        _showDifficultyDialog(context, '/math/race');
-                      },
+                      onTap: () => context.push('/math/race?difficulty=medium'),
                     ),
                     GameOptionCard(
                       icon: Icons.calculate,
@@ -152,21 +98,15 @@ class MathRaceView extends ConsumerWidget {
                 SurpriseMeButton(
                   onPressed: () {
                     final games = [
-                      '/math/race',
-                      '/math/mental_arithmetic',
-                      '/math/square_root',
-                      '/math/math_grid',
-                      '/math/math_pairs',
+                      '/math/race?difficulty=medium',
+                      '/mental_arithmetic',
+                      '/square_root',
+                      '/math_grid',
+                      '/math_pairs',
                     ];
                     final random =
                         games[DateTime.now().millisecond % games.length];
-
-                    // For race game, show difficulty dialog
-                    if (random == '/math/race') {
-                      _showDifficultyDialog(context, random);
-                    } else {
-                      context.push(random);
-                    }
+                    context.push(random);
                   },
                 ),
 
@@ -263,39 +203,6 @@ class _InfoCard extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _DifficultyButton extends StatelessWidget {
-  final String text;
-  final Color color;
-  final VoidCallback onPressed;
-
-  const _DifficultyButton({
-    required this.text,
-    required this.color,
-    required this.onPressed,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          elevation: 4,
-          shadowColor: color.withValues(alpha: .6),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
       ),
     );
   }
