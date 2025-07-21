@@ -1,0 +1,7 @@
+<!-- This is a placeholder SVG for the counting adventure activity -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#F5F5F5"/>
+  <circle cx="100" cy="80" r="50" fill="#6A5AE0" opacity="0.8"/>
+  <text x="100" y="85" font-family="Arial" font-size="16" text-anchor="middle" fill="white">Counting Adventure</text>
+  <text x="100" y="150" font-family="Arial" font-size="24" text-anchor="middle" fill="#333">1 + 2 = 3</text>
+</svg>

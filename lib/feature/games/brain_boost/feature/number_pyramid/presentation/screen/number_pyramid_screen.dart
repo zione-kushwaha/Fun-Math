@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fun_math/core/data/difficulty_type.dart';
 import 'package:fun_math/feature/games/brain_boost/feature/number_pyramid/presentation/provider/number_pyramid_providers.dart';
-import 'package:fun_math/feature/games/brain_boost/feature/number_pyramid/presentation/state/number_pyramid_state.dart';
 import 'package:fun_math/feature/games/brain_boost/feature/number_pyramid/presentation/widgets/number_input_panel.dart';
 import 'package:fun_math/feature/games/brain_boost/feature/number_pyramid/presentation/widgets/pyramid_completion_dialog.dart';
 import 'package:fun_math/feature/games/brain_boost/feature/number_pyramid/presentation/widgets/pyramid_control_panel.dart';

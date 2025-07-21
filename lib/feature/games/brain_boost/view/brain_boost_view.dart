@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:fun_math/core/presentation/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fun_math/core/shared/game_option_card.dart';
 
 class BrainBoostView extends ConsumerWidget {
   const BrainBoostView({super.key});
@@ -45,9 +45,9 @@ class BrainBoostView extends ConsumerWidget {
                           Colors.grey[800]!,
                         ]
                       : [
-                          Color(0xFFFF8FA2),
-                          Color(0xFFFF758F),
-                          Colors.pink.shade400,
+                          theme.primaryColor,
+                          theme.primaryColor.withValues(alpha:0.7),
+                          Colors.deepPurple.shade400,
                         ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -82,30 +82,34 @@ class BrainBoostView extends ConsumerWidget {
                     crossAxisSpacing: 20,
                   ),
                   children: [
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.change_history,
                       title: 'Magic Triangle',
+                      subtitle: 'Number puzzles',
                       color: Colors.purple,
                       delay: 0,
                       onTap: () => context.push('/magic_triangle'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.format_shapes,
                       title: 'Number Pyramid',
+                      subtitle: 'Build pyramids',
                       color: Colors.cyan,
                       delay: 100,
                       onTap: () => context.push('/number_pyramid'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.image,
                       title: 'Picture Puzzle',
+                      subtitle: 'Visual challenges',
                       color: Colors.orange,
                       delay: 200,
                       onTap: () => context.push('/picture_puzzle'),
                     ),
-                    _GameOptionCard(
+                    GameOptionCard(
                       icon: Icons.flip,
                       title: 'Pattern Master',
+                      subtitle: 'Pattern recognition',
                       color: Colors.green,
                       delay: 300,
                       onTap: () => context.push('/pattern_master'),
@@ -113,7 +117,7 @@ class BrainBoostView extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                _BouncingButton(
+                BouncingButton(
                   onPressed: () {
                     final games = ['/magic_triangle', '/number_pyramid', '/picture_puzzle', '/pattern_master'];
                     final random = games[DateTime.now().millisecond % games.length];
@@ -154,7 +158,8 @@ class _AnimatedTitle extends StatelessWidget {
       curve: Curves.elasticOut,
       builder: (context, value, child) {
         return Opacity(
-          opacity: value,          child: Transform.translate(
+          opacity: value.clamp(0.0, 1.0),
+          child: Transform.translate(
             offset: Offset(0, (1 - value) * 20),
             child: child,
           ),
@@ -185,229 +190,7 @@ class _AnimatedTitle extends StatelessWidget {
   }
 }
 
-class _GameOptionCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final Color color;
-  final int delay;
-  final VoidCallback onTap;
 
-  const _GameOptionCard({
-    required this.icon,
-    required this.title,
-    required this.color,
-    required this.delay,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
-      duration: Duration(milliseconds: 800 + delay),
-      curve: Curves.elasticOut,
-      builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: child,
-        );
-      },
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                color,
-                color.withOpacity(0.7),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: color.withOpacity(0.4),
-                blurRadius: 10,
-                spreadRadius: 1,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Stack(
-              children: [
-                // Background pattern
-                Positioned(
-                  right: -20,
-                  bottom: -20,
-                  child: Opacity(
-                    opacity: 0.2,
-                    child: Icon(
-                      icon,
-                      size: 130,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                
-                // Content
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        icon,
-                        size: 48,
-                        color: Colors.white,
-                      ),
-                      const Spacer(),
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.play_arrow,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              'Play Now',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BouncingButton extends StatefulWidget {
-  final Widget child;
-  final VoidCallback onPressed;
-
-  const _BouncingButton({
-    required this.child,
-    required this.onPressed,
-  });
-
-  @override
-  State<_BouncingButton> createState() => _BouncingButtonState();
-}
-
-class _BouncingButtonState extends State<_BouncingButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    // Add a repeating animation to draw attention
-    Future.delayed(Duration(seconds: 1), () {
-      _controller.repeat(reverse: true);
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    
-    return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
-      onTapUp: (_) {
-        _controller.reverse();
-        widget.onPressed();
-      },
-      onTapCancel: () => _controller.reverse(),
-      child: AnimatedBuilder(
-        animation: _scaleAnimation,
-        builder: (_, child) {
-          return Transform.scale(
-            scale: _scaleAnimation.value,
-            child: child,
-          );
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: isDark
-                  ? [Colors.pink[700]!, Colors.pink[900]!]
-                  : [Colors.pink[400]!, Colors.pink[600]!],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: isDark 
-                    ? Colors.pink[700]!.withOpacity(0.3)
-                    : Colors.pink[400]!.withOpacity(0.3),
-                blurRadius: 8,
-                spreadRadius: 1,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: DefaultTextStyle(
-            style: const TextStyle(color: Colors.white),
-            child: widget.child,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class _InfoCard extends StatelessWidget {
   final String title;

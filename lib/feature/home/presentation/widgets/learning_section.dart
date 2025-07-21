@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LearningSection extends StatefulWidget {
   const LearningSection({super.key});
@@ -189,31 +190,31 @@ class _LearningSectionState extends State<LearningSection>
                                   mainAxisSpacing: 12,),
             
                 physics: const NeverScrollableScrollPhysics(),
-              children: [
-                _buildMiniCard(
+              children: [                _buildMiniCard(
                   context,
-                  icon: Icons.calculate_rounded,
+                  img_path: 'assets/operation/1.png',
                   title: 'Addition',
                   color: const Color(0xFF6A5AE0),
                   isDarkMode: isDarkMode,
+                  onTap: () => context.push('/learning/addition'),
                 ),
                 _buildMiniCard(
                   context,
-                  icon: Icons.remove_rounded,
+                  img_path: 'assets/operation/2.png',
                   title: 'Subtraction',
                   color: const Color(0xFFFF8FA2),
                   isDarkMode: isDarkMode,
                 ),
                 _buildMiniCard(
                   context,
-                  icon: Icons.close_rounded,
+                  img_path: 'assets/operation/3.png',
                   title: 'Multiplication',
                   color: const Color(0xFFFFD56F),
                   isDarkMode: isDarkMode,
                 ),
                 _buildMiniCard(
                   context,
-                  icon: Icons.percent_rounded,
+                  img_path: 'assets/operation/4.png',
                   title: 'Division',
                   color: const Color(0xFF92E3A9),
                   isDarkMode: isDarkMode,
@@ -228,13 +229,13 @@ class _LearningSectionState extends State<LearningSection>
       ],
     );
   }
-  
-  Widget _buildMiniCard(
+    Widget _buildMiniCard(
     BuildContext context, {
-    required IconData icon,
+    required String img_path,
     required String title,
     required Color color,
     required bool isDarkMode,
+    VoidCallback? onTap,
   }) {
     final cardColor = isDarkMode ? Colors.grey[900]! : Colors.white;
     final textColor = isDarkMode ? Colors.white : Colors.black;
@@ -253,12 +254,11 @@ class _LearningSectionState extends State<LearningSection>
                   offset: const Offset(0, 2),
                 ),
               ],
-      ),
-      child: Material(
+      ),      child: Material(
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () {},
+          onTap: onTap ?? () {},
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -270,10 +270,10 @@ class _LearningSectionState extends State<LearningSection>
                     color: color.withValues(alpha:isDarkMode ? 0.2 : 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 20,
+                  child: Image.asset(
+                    img_path,
+                    width: 55,
+                    height: 55,
                   ),
                 ),
                 const SizedBox(height: 8),

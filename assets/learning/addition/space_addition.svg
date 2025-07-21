@@ -1,0 +1,16 @@
+<!-- This is a placeholder SVG for the space addition activity -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#03003D"/>
+  <circle cx="100" cy="100" r="30" fill="#FFCC00"/>
+  <circle cx="40" cy="50" r="3" fill="#FFFFFF"/>
+  <circle cx="160" cy="30" r="2" fill="#FFFFFF"/>
+  <circle cx="120" cy="70" r="2" fill="#FFFFFF"/>
+  <circle cx="180" cy="90" r="3" fill="#FFFFFF"/>
+  <circle cx="30" cy="120" r="2" fill="#FFFFFF"/>
+  <circle cx="70" cy="150" r="3" fill="#FFFFFF"/>
+  <circle cx="140" cy="140" r="2" fill="#FFFFFF"/>
+  <circle cx="110" cy="170" r="3" fill="#FFFFFF"/>
+  <path d="M80,110 L70,130 L90,130 Z" fill="#FF3366"/>
+  <text x="100" y="105" font-family="Arial" font-size="12" text-anchor="middle" fill="white">2 + 3</text>
+  <text x="100" y="180" font-family="Arial" font-size="16" text-anchor="middle" fill="white">Space Addition</text>
+</svg>
