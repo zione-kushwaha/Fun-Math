@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fun_math/core/shared/surprise_me.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fun_math/core/theme/provider/theme_provider.dart' as theme_provider;
+import 'package:fun_math/core/theme/provider/theme_provider.dart'
+    as theme_provider;
 
 import '../../../../core/shared/game_option_card.dart';
 
@@ -13,17 +15,17 @@ class MemoryMatchView extends ConsumerWidget {
     final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 120,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: const Text('Memory Match Games', 
+              title: const Text(
+                'Memory Match Games',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -37,47 +39,20 @@ class MemoryMatchView extends ConsumerWidget {
                   ],
                 ),
               ),
-              background: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: isDark
-                       ? [
-                         Colors.grey[900]!,
-                          Colors.grey[800]!,
-                        ]
-                      : [
-                          theme.primaryColor,
-                          theme.primaryColor.withValues(alpha:0.7),
-                          Colors.deepPurple.shade400,
-                        ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-              ),
             ),
-            actions: [
-              IconButton(
-                icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-                onPressed: () {
-                  ref.read(theme_provider.themeProvider.notifier).toggleTheme();
-                },
-              ),
-            ],
           ),
           SliverPadding(
             padding: const EdgeInsets.all(16.0),
-          
+
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                const SizedBox(height: 10),
                 _AnimatedTitle(text: 'Train Your Memory!'),
-              
+
                 GridView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, 
+                    crossAxisCount: 2,
                     mainAxisExtent: size.height * 0.25,
                     mainAxisSpacing: 20,
                     crossAxisSpacing: 20,
@@ -89,7 +64,10 @@ class MemoryMatchView extends ConsumerWidget {
                       subtitle: 'Match numbers correctly',
                       color: Colors.purple,
                       delay: 0,
-                      onTap: () => _showDifficultyDialog(context, '/memory/number_match'),
+                      onTap: () => _showDifficultyDialog(
+                        context,
+                        '/memory/number_match',
+                      ),
                     ),
                     GameOptionCard(
                       icon: Icons.calculate,
@@ -97,7 +75,10 @@ class MemoryMatchView extends ConsumerWidget {
                       subtitle: 'Match equations with answers',
                       color: Colors.indigo,
                       delay: 100,
-                      onTap: () => _showDifficultyDialog(context, '/memory/equation_match'),
+                      onTap: () => _showDifficultyDialog(
+                        context,
+                        '/memory/equation_match',
+                      ),
                     ),
                     GameOptionCard(
                       icon: Icons.emoji_objects,
@@ -105,7 +86,10 @@ class MemoryMatchView extends ConsumerWidget {
                       subtitle: 'Remember visual patterns',
                       color: Colors.teal,
                       delay: 200,
-                      onTap: () => _showDifficultyDialog(context, '/memory/visual_memory'),
+                      onTap: () => _showDifficultyDialog(
+                        context,
+                        '/memory/visual_memory',
+                      ),
                     ),
                     GameOptionCard(
                       icon: Icons.timer,
@@ -113,7 +97,10 @@ class MemoryMatchView extends ConsumerWidget {
                       subtitle: 'Test your memory speed',
                       color: Colors.amber,
                       delay: 300,
-                      onTap: () => _showDifficultyDialog(context, '/memory/speed_memory'),
+                      onTap: () => _showDifficultyDialog(
+                        context,
+                        '/memory/speed_memory',
+                      ),
                     ),
                     GameOptionCard(
                       icon: Icons.swap_calls,
@@ -121,7 +108,10 @@ class MemoryMatchView extends ConsumerWidget {
                       subtitle: 'Remember sequences',
                       color: Colors.pink,
                       delay: 400,
-                      onTap: () => _showDifficultyDialog(context, '/memory/sequence_match'),
+                      onTap: () => _showDifficultyDialog(
+                        context,
+                        '/memory/sequence_match',
+                      ),
                     ),
                     GameOptionCard(
                       icon: Icons.pattern_rounded,
@@ -129,34 +119,35 @@ class MemoryMatchView extends ConsumerWidget {
                       subtitle: 'Memory pattern challenge',
                       color: Colors.green,
                       delay: 500,
-                      onTap: () => _showDifficultyDialog(context, '/memory/pattern_memory'),
+                      onTap: () => _showDifficultyDialog(
+                        context,
+                        '/memory/pattern_memory',
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 30),
-                _BouncingButton(
+                SurpriseMeButton(
                   onPressed: () {
                     final games = [
-                      '/memory/number_match', 
-                      '/memory/equation_match', 
+                      '/memory/number_match',
+                      '/memory/equation_match',
                       '/memory/visual_memory',
                       '/memory/speed_memory',
                       '/memory/sequence_match',
-                      '/memory/pattern_memory'
+                      '/memory/pattern_memory',
                     ];
-                    final random = games[DateTime.now().millisecond % games.length];
+                    final random =
+                        games[DateTime.now().millisecond % games.length];
                     _showDifficultyDialog(context, random);
                   },
-                  child: const Text(
-                    'Random Memory Challenge!',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
                 ),
-                
+
                 const SizedBox(height: 24),
                 _InfoCard(
                   title: 'Enhance Your Memory Skills!',
-                  content: 'These games are designed to improve your memory, pattern recognition, and concentration while making math fun.',
+                  content:
+                      'These games are designed to improve your memory, pattern recognition, and concentration while making math fun.',
                   icon: Icons.psychology,
                 ),
                 const SizedBox(height: 24),
@@ -167,11 +158,11 @@ class MemoryMatchView extends ConsumerWidget {
       ),
     );
   }
-  
+
   // Show difficulty selection dialog
   void _showDifficultyDialog(BuildContext context, String routePath) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     showDialog(
       context: context,
       builder: (context) {
@@ -217,13 +208,12 @@ class MemoryMatchView extends ConsumerWidget {
 
 class _AnimatedTitle extends StatelessWidget {
   final String text;
-  
+
   const _AnimatedTitle({required this.text});
-  
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
+    return SizedBox(
       child: Text(
         text,
         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -255,30 +245,32 @@ class _GameOptionCard extends StatefulWidget {
   State<_GameOptionCard> createState() => _GameOptionCardState();
 }
 
-class _GameOptionCardState extends State<_GameOptionCard> with SingleTickerProviderStateMixin {
+class _GameOptionCardState extends State<_GameOptionCard>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scaleAnimation;
-  
+
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    
-    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
-    
+
+    _scaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
+
     Future.delayed(Duration(milliseconds: widget.delay), () {
       if (mounted) {
         _controller.forward();
       }
     });
   }
-  
+
   @override
   void dispose() {
     _controller.dispose();
@@ -290,7 +282,7 @@ class _GameOptionCardState extends State<_GameOptionCard> with SingleTickerProvi
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final backgroundColor = isDark ? Colors.grey[800] : Colors.white;
-    
+
     return ScaleTransition(
       scale: _scaleAnimation,
       child: InkWell(
@@ -318,11 +310,7 @@ class _GameOptionCardState extends State<_GameOptionCard> with SingleTickerProvi
                   color: widget.color.withOpacity(0.2),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  widget.icon,
-                  size: 40,
-                  color: widget.color,
-                ),
+                child: Icon(widget.icon, size: 40, color: widget.color),
               ),
               const SizedBox(height: 16),
               Text(
@@ -334,7 +322,10 @@ class _GameOptionCardState extends State<_GameOptionCard> with SingleTickerProvi
               ),
               const SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   color: widget.color.withOpacity(0.1),
@@ -355,90 +346,22 @@ class _GameOptionCardState extends State<_GameOptionCard> with SingleTickerProvi
   }
 }
 
-class _BouncingButton extends StatefulWidget {
-  final VoidCallback onPressed;
-  final Widget child;
-  
-  const _BouncingButton({required this.onPressed, required this.child});
-  
-  @override
-  State<_BouncingButton> createState() => _BouncingButtonState();
-}
-
-class _BouncingButtonState extends State<_BouncingButton> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _scaleAnimation;
-  
-  @override
-  void initState() {
-    super.initState();
-    
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-  }
-  
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    
-    return GestureDetector(
-      onTapDown: (_) => _controller.forward(),
-      onTapUp: (_) {
-        _controller.reverse();
-        widget.onPressed();
-      },
-      onTapCancel: () => _controller.reverse(),
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.secondary,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: theme.colorScheme.secondary.withOpacity(0.4),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Center(child: widget.child),
-        ),
-      ),
-    );
-  }
-}
-
 class _InfoCard extends StatelessWidget {
   final String title;
   final String content;
   final IconData icon;
-  
+
   const _InfoCard({
     required this.title,
     required this.content,
     required this.icon,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -453,14 +376,11 @@ class _InfoCard extends StatelessWidget {
         ],
       ),
       child: Column(
-        children: [          Row(
+        children: [
+          Row(
             mainAxisSize: MainAxisSize.min, // Add this to prevent overflow
             children: [
-              Icon(
-                icon,
-                size: 28,
-                color: theme.colorScheme.secondary,
-              ),
+              Icon(icon, size: 28, color: theme.colorScheme.secondary),
               const SizedBox(width: 2),
               FittedBox(
                 child: Text(
@@ -473,10 +393,7 @@ class _InfoCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Text(
-            content,
-            style: theme.textTheme.bodyLarge,
-          ),
+          Text(content, style: theme.textTheme.bodyLarge),
         ],
       ),
     );
@@ -487,15 +404,15 @@ class _DifficultyButton extends StatelessWidget {
   final String text;
   final Color color;
   final VoidCallback onPressed;
-  
+
   const _DifficultyButton({
     required this.text,
     required this.color,
     required this.onPressed,
   });
-  
+
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -510,10 +427,7 @@ class _DifficultyButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );

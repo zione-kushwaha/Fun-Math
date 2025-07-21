@@ -7,7 +7,6 @@ import 'package:fun_math/feature/home/presentation/widgets/math_character.dart';
 import 'package:iconsax/iconsax.dart';
 import '../widgets/footer.dart';
 import '../widgets/game_card.dart';
-import '../widgets/learning_section.dart';
 import '../widgets/animated_header.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -25,13 +24,16 @@ class HomeScreen extends ConsumerWidget {
         children: [
           // Enhanced Normal App Bar (not Sliver)
           _buildAppBar(context, isDarkMode, themeNotifier, colorScheme),
-          
+
           // Main Content with SingleChildScrollView
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -40,12 +42,8 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 30),
 
                     // Math Character with Speech Bubble
-                      _buildMathCharacter(context, isDarkMode),
-                      const SizedBox(height: 25),
-
-                     const LearningSection(),
-                     const SizedBox(height: 20),
-
+                    _buildMathCharacter(context, isDarkMode),
+                    const SizedBox(height: 25),
 
                     // Game Categories Section
                     _buildSectionHeader(
@@ -56,7 +54,6 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    
                     DifficultySelector(),
 
                     // Game Cards Grid with fun shapes
@@ -64,7 +61,8 @@ class HomeScreen extends ConsumerWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: 2,
-                      childAspectRatio: 1.1, // More square for child-friendly look
+                      childAspectRatio:
+                          1.1, // More square for child-friendly look
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16,
                       children: [
@@ -78,14 +76,14 @@ class HomeScreen extends ConsumerWidget {
                         GameCard(
                           title: 'Brain Boost',
                           description: 'Choose the right answer!',
-                            icon: Icons.memory_rounded,
+                          icon: Icons.memory_rounded,
                           color: const Color(0xFFFF8FA2),
                           route: '/brain_boost',
                         ),
                         GameCard(
                           title: 'Math Race',
                           description: 'Find the missing symbol!',
-                            icon: Iconsax.flag,
+                          icon: Iconsax.flag,
                           color: const Color(0xFFFFD56F),
                           route: '/math_race',
                         ),
@@ -101,8 +99,6 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 24),
 
                     // Learning Section with fun illustrations
-                   
-                
                     buildFooter(context, isDarkMode),
                   ],
                 ),
@@ -113,8 +109,22 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
   }
-  Widget _buildAppBar(BuildContext context, bool isDarkMode, ThemeProvider themeNotifier, ColorScheme colorScheme) {
-    return AnimatedHeader().animate().fadeIn(duration: 600.ms).slideY(begin: -0.2, end: 0, duration: 700.ms, curve: Curves.easeOutQuad);
+
+  Widget _buildAppBar(
+    BuildContext context,
+    bool isDarkMode,
+    ThemeProvider themeNotifier,
+    ColorScheme colorScheme,
+  ) {
+    return AnimatedHeader()
+        .animate()
+        .fadeIn(duration: 600.ms)
+        .slideY(
+          begin: -0.2,
+          end: 0,
+          duration: 700.ms,
+          curve: Curves.easeOutQuad,
+        );
   }
 
   Widget _buildWelcomeSection(BuildContext context, bool isDarkMode) {
@@ -169,8 +179,8 @@ class HomeScreen extends ConsumerWidget {
                   const Color(0xFFFF8FA2).withValues(alpha: 0.2),
                 ]
               : [
-                  const Color(0xFF6A5AE0).withValues(alpha:0.1),
-                  const Color(0xFFFF8FA2).withValues(alpha:0.05),
+                  const Color(0xFF6A5AE0).withValues(alpha: 0.1),
+                  const Color(0xFFFF8FA2).withValues(alpha: 0.05),
                 ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -189,8 +199,8 @@ class HomeScreen extends ConsumerWidget {
             child: Text(
               'Choose a game to start your learning adventure!',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: isDarkMode ? Colors.white70 : Colors.black54,
-                  ),
+                color: isDarkMode ? Colors.white70 : Colors.black54,
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -242,7 +252,9 @@ class HomeScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.only(left: 80, top: 20),
           decoration: BoxDecoration(
-            color: isDarkMode ? const Color(0xFF282356) : const Color(0xFFE9E6FF),
+            color: isDarkMode
+                ? const Color(0xFF282356)
+                : const Color(0xFFE9E6FF),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
@@ -255,13 +267,13 @@ class HomeScreen extends ConsumerWidget {
           child: Text(
             '  I love math!\nCan we play a game?',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: isDarkMode ? Colors.white : const Color(0xFF6A5AE0),
-                  fontWeight: FontWeight.bold,
-                ),
+              color: isDarkMode ? Colors.white : const Color(0xFF6A5AE0),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         // Math character (simple illustration)
-        mathCharacter()
+        mathCharacter(),
       ],
     );
   }
@@ -280,7 +292,9 @@ class HomeScreen extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: iconColor?.withValues(alpha: .2) ?? Theme.of(context).colorScheme.primary.withValues(alpha: .2),
+              color:
+                  iconColor?.withValues(alpha: .2) ??
+                  Theme.of(context).colorScheme.primary.withValues(alpha: .2),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -292,15 +306,11 @@ class HomeScreen extends ConsumerWidget {
         const SizedBox(width: 12),
         Text(
           title,
-          style: textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
       ],
     );
   }
-
-
 }
 
 class _FloatingMathSymbol extends StatefulWidget {
@@ -331,12 +341,10 @@ class _FloatingMathSymbolState extends State<_FloatingMathSymbol>
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 0, end: 2 * pi).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _animation = Tween<double>(
+      begin: 0,
+      end: 2 * pi,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     Future.delayed(Duration(milliseconds: widget.delay), () {
       if (mounted) _controller.repeat();

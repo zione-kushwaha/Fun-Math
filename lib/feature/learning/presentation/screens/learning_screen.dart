@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../addition/presentation/widgets/learning_seaction.dart';
+
 class LearningScreen extends ConsumerWidget {
   const LearningScreen({super.key});
 
@@ -11,7 +13,7 @@ class LearningScreen extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Learning Center'),
@@ -33,7 +35,7 @@ class LearningScreen extends ConsumerWidget {
               // Premium learning path card
               _buildPremiumCard(context, isDarkMode, textTheme),
               const SizedBox(height: 24),
-              
+
               // Learning categories
               Text(
                 'Math Topics',
@@ -43,52 +45,9 @@ class LearningScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              
-              // Learning categories grid
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 1.1,
-                children: [
-                  _buildTopicCard(
-                    context,
-                    title: 'Addition',
-                    icon: Iconsax.add,
-                    color: const Color(0xFF6A5AE0),
-                    route: '/learning/addition',
-                  ),
-                  _buildTopicCard(
-                    context,
-                    title: 'Subtraction',
-                    icon: Iconsax.minus,
-                    color: const Color(0xFFFF8FA2),
-                    route: '/learning/subtraction',
-                    isComingSoon: true,
-                  ),
-                  _buildTopicCard(
-                    context,
-                    title: 'Multiplication',
-                    icon: Iconsax.close_circle,
-                    color: const Color(0xFFFFD56F),
-                    route: '/learning/multiplication',
-                    isComingSoon: true,
-                  ),
-                  _buildTopicCard(
-                    context,
-                    title: 'Division',
-                    icon: Iconsax.slash,
-                    color: const Color(0xFF92E3A9),
-                    route: '/learning/division',
-                    isComingSoon: true,
-                  ),
-                ],
-              ),
-              
-              const SizedBox(height: 24),
-              
+
+              const LearningSection(),
+
               Text(
                 'Additional Learning',
                 style: textTheme.headlineSmall?.copyWith(
@@ -97,7 +56,7 @@ class LearningScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Learning resources
               _buildLearningResourceCard(
                 context,
@@ -106,9 +65,9 @@ class LearningScreen extends ConsumerWidget {
                 icon: Iconsax.teacher,
                 isDarkMode: isDarkMode,
               ),
-              
+
               const SizedBox(height: 12),
-              
+
               _buildLearningResourceCard(
                 context,
                 title: 'Math Videos',
@@ -116,9 +75,9 @@ class LearningScreen extends ConsumerWidget {
                 icon: Iconsax.video,
                 isDarkMode: isDarkMode,
               ),
-              
+
               const SizedBox(height: 12),
-              
+
               _buildLearningResourceCard(
                 context,
                 title: 'Practice Worksheets',
@@ -133,16 +92,17 @@ class LearningScreen extends ConsumerWidget {
       ),
     );
   }
-  
-  Widget _buildPremiumCard(BuildContext context, bool isDarkMode, TextTheme textTheme) {
+
+  Widget _buildPremiumCard(
+    BuildContext context,
+    bool isDarkMode,
+    TextTheme textTheme,
+  ) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            const Color(0xFF6A5AE0),
-            const Color(0xFF8D7BFF),
-          ],
+          colors: [const Color(0xFF6A5AE0), const Color(0xFF8D7BFF)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -153,11 +113,7 @@ class LearningScreen extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Icon(
-                Iconsax.crown_1,
-                color: Colors.amber,
-                size: 28,
-              ),
+              Icon(Iconsax.crown_1, color: Colors.amber, size: 28),
               const SizedBox(width: 8),
               Text(
                 'Premium Learning Path',
@@ -198,109 +154,6 @@ class LearningScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTopicCard(
-    BuildContext context, {
-    required String title,
-    required IconData icon,
-    required Color color,
-    required String route,
-    bool isComingSoon = false,
-  }) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode ? Colors.grey.shade800 : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {
-            if (isComingSoon) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('$title coming soon!')),
-              );
-              return;
-            }
-            context.go(route);
-          },
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: color.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        icon,
-                        color: color,
-                        size: 30,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Learn & Practice',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: isDarkMode 
-                          ? Colors.grey.shade400 
-                          : Colors.grey.shade700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              if (isComingSoon)
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      'Coming Soon',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  
   Widget _buildLearningResourceCard(
     BuildContext context, {
     required String title,
@@ -334,9 +187,9 @@ class LearningScreen extends ConsumerWidget {
               return;
             }
             // Action for learning resource
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Opening $title')),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('Opening $title')));
           },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -345,7 +198,9 @@ class LearningScreen extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -361,28 +216,23 @@ class LearningScreen extends ConsumerWidget {
                     children: [
                       Text(
                         title,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         description,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: isDarkMode 
-                            ? Colors.grey.shade400 
-                            : Colors.grey.shade700,
+                          color: isDarkMode
+                              ? Colors.grey.shade400
+                              : Colors.grey.shade700,
                         ),
                       ),
                     ],
                   ),
                 ),
                 if (isLocked)
-                  Icon(
-                    Iconsax.lock_1,
-                    color: Colors.amber,
-                    size: 20,
-                  )
+                  Icon(Iconsax.lock_1, color: Colors.amber, size: 20)
                 else
                   Icon(
                     Iconsax.arrow_right_3,

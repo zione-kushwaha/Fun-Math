@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fun_math/core/shared/surprise_me.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fun_math/core/theme/provider/theme_provider.dart' as theme_provider;
+import 'package:fun_math/core/theme/provider/theme_provider.dart'
+    as theme_provider;
 import 'package:fun_math/core/shared/game_option_card.dart';
 
 class MathRaceView extends ConsumerWidget {
@@ -10,7 +12,7 @@ class MathRaceView extends ConsumerWidget {
   // Show difficulty selection dialog
   void _showDifficultyDialog(BuildContext context, String routePath) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     showDialog(
       context: context,
       builder: (context) {
@@ -58,17 +60,17 @@ class MathRaceView extends ConsumerWidget {
     final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 120,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: const Text('Math Race Games', 
+              title: const Text(
+                'Math Race Games',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -82,51 +84,25 @@ class MathRaceView extends ConsumerWidget {
                   ],
                 ),
               ),
-              background: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: isDark
-                      ? [
-                         Colors.grey[900]!,
-                          Colors.grey[800]!,
-                        ]
-                      : [
-                          theme.primaryColor,
-                          theme.primaryColor.withValues(alpha:0.7),
-                          Colors.deepPurple.shade400,
-                        ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-              ),
             ),
-            actions: [
-              IconButton(
-                icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),                onPressed: () {
-                  ref.read(theme_provider.themeProvider.notifier).toggleTheme();
-                },
-              ),
-            ],
           ),
           SliverPadding(
             padding: const EdgeInsets.all(16.0),
-          
+
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                const SizedBox(height: 10),
                 _AnimatedTitle(text: 'Race Against Time!'),
-              
+
                 GridView(
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, 
+                    crossAxisCount: 2,
                     mainAxisExtent: size.height * 0.25,
                     mainAxisSpacing: 20,
                     crossAxisSpacing: 20,
                   ),
-                  children: [                    
+                  children: [
                     GameOptionCard(
                       icon: Icons.directions_run,
                       title: 'Math Race',
@@ -172,12 +148,19 @@ class MathRaceView extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),             
-                   BouncingButton(
+                const SizedBox(height: 30),
+                SurpriseMeButton(
                   onPressed: () {
-                    final games = ['/math/race', '/math/mental_arithmetic', '/math/square_root', '/math/math_grid', '/math/math_pairs'];
-                    final random = games[DateTime.now().millisecond % games.length];
-                    
+                    final games = [
+                      '/math/race',
+                      '/math/mental_arithmetic',
+                      '/math/square_root',
+                      '/math/math_grid',
+                      '/math/math_pairs',
+                    ];
+                    final random =
+                        games[DateTime.now().millisecond % games.length];
+
                     // For race game, show difficulty dialog
                     if (random == '/math/race') {
                       _showDifficultyDialog(context, random);
@@ -185,16 +168,13 @@ class MathRaceView extends ConsumerWidget {
                       context.push(random);
                     }
                   },
-                  child: const Text(
-                    'Random Math Challenge!',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
                 ),
-                
+
                 const SizedBox(height: 24),
                 _InfoCard(
                   title: 'Test Your Math Skills!',
-                  content: 'These games are designed to improve your mental calculation speed, arithmetic skills, and logical thinking abilities.',
+                  content:
+                      'These games are designed to improve your mental calculation speed, arithmetic skills, and logical thinking abilities.',
                   icon: Icons.psychology,
                 ),
                 const SizedBox(height: 24),
@@ -209,13 +189,12 @@ class MathRaceView extends ConsumerWidget {
 
 class _AnimatedTitle extends StatelessWidget {
   final String text;
-  
+
   const _AnimatedTitle({required this.text});
-  
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
+    return SizedBox(
       child: Text(
         text,
         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -232,9 +211,13 @@ class _InfoCard extends StatelessWidget {
   final String title;
   final String content;
   final IconData icon;
-  
-  const _InfoCard({required this.title, required this.content, required this.icon});
-  
+
+  const _InfoCard({
+    required this.title,
+    required this.content,
+    required this.icon,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -259,11 +242,7 @@ class _InfoCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            icon,
-            size: 40,
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
+          Icon(icon, size: 40, color: Theme.of(context).colorScheme.onPrimary),
           const SizedBox(height: 8),
           Text(
             title,
@@ -276,7 +255,9 @@ class _InfoCard extends StatelessWidget {
           Text(
             content,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: .9),
+              color: Theme.of(
+                context,
+              ).colorScheme.onPrimary.withValues(alpha: .9),
               fontSize: 16,
             ),
             textAlign: TextAlign.center,
@@ -298,7 +279,7 @@ class _DifficultyButton extends StatelessWidget {
     required this.onPressed,
   });
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -313,10 +294,7 @@ class _DifficultyButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );

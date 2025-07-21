@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fun_math/core/shared/surprise_me.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fun_math/core/presentation/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,17 +13,18 @@ class BrainBoostView extends ConsumerWidget {
     final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 120,
+
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: const Text('Brain Boost Games', 
+              title: const Text(
+                'Brain Boost Games',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -36,47 +38,21 @@ class BrainBoostView extends ConsumerWidget {
                   ],
                 ),
               ),
-              background: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: isDark
-                      ? [
-                          Colors.grey[900]!,
-                          Colors.grey[800]!,
-                        ]
-                      : [
-                          theme.primaryColor,
-                          theme.primaryColor.withValues(alpha:0.7),
-                          Colors.deepPurple.shade400,
-                        ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-              ),
             ),
-            actions: [
-              IconButton(
-                icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-                onPressed: () {
-                  ref.read(themeProvider.notifier).toggleTheme();
-                },
-              ),
-            ],
           ),
           SliverPadding(
             padding: const EdgeInsets.all(16.0),
-          
+
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 const SizedBox(height: 10),
                 _AnimatedTitle(text: 'Challenge Your Brain!'),
-              
+
                 GridView(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, 
+                    crossAxisCount: 2,
                     mainAxisExtent: size.height * 0.25,
                     mainAxisSpacing: 20,
                     crossAxisSpacing: 20,
@@ -117,22 +93,25 @@ class BrainBoostView extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                BouncingButton(
+                SurpriseMeButton(
                   onPressed: () {
-                    final games = ['/magic_triangle', '/number_pyramid', '/picture_puzzle', '/pattern_master'];
-                    final random = games[DateTime.now().millisecond % games.length];
+                    final games = [
+                      '/magic_triangle',
+                      '/number_pyramid',
+                      '/picture_puzzle',
+                      '/pattern_master',
+                    ];
+                    final random =
+                        games[DateTime.now().millisecond % games.length];
                     context.push(random);
                   },
-                  child: const Text(
-                    'Random Brain Challenge!',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
                 ),
-                
+
                 const SizedBox(height: 24),
                 _InfoCard(
                   title: 'Train Your Brain!',
-                  content: 'These games are specially designed to enhance your logical thinking, pattern recognition, and problem-solving skills.',
+                  content:
+                      'These games are specially designed to enhance your logical thinking, pattern recognition, and problem-solving skills.',
                   icon: Icons.psychology,
                 ),
                 const SizedBox(height: 24),
@@ -147,9 +126,9 @@ class BrainBoostView extends ConsumerWidget {
 
 class _AnimatedTitle extends StatelessWidget {
   final String text;
-  
+
   const _AnimatedTitle({required this.text});
-  
+
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
@@ -166,7 +145,7 @@ class _AnimatedTitle extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 24),
+        margin: const EdgeInsets.only(bottom: 0),
         child: Text(
           text,
           textAlign: TextAlign.center,
@@ -190,8 +169,6 @@ class _AnimatedTitle extends StatelessWidget {
   }
 }
 
-
-
 class _InfoCard extends StatelessWidget {
   final String title;
   final String content;
@@ -206,7 +183,7 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -234,10 +211,7 @@ class _InfoCard extends StatelessWidget {
                   color: Colors.pink[100],
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  color: Colors.pink[700],
-                ),
+                child: Icon(icon, color: Colors.pink[700]),
               ),
               const SizedBox(width: 12),
               Text(
