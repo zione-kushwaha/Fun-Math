@@ -24,6 +24,7 @@ import '../../feature/games/memory_match/feature/speed_memory/presentation/scree
 import '../../feature/games/memory_match/feature/sequence_match/presentation/screen/sequence_match_screen.dart';
 import '../../feature/games/memory_match/feature/pattern_memory/presentation/screen/pattern_memory_screen.dart';
 
+import '../../feature/games/number_puzzle/feature/puzzle/presentation/screen/number_puzzle_screen.dart';
 import '../../feature/games/number_puzzle/view/number_puzzle_view.dart';
 import '../../feature/games/number_puzzle/feature/calculator/presentation/screen/calculator_screen.dart';
 import '../../feature/games/number_puzzle/feature/correct_answer/presentation/screen/correct_answer_screen.dart';
@@ -237,6 +238,19 @@ class AppRouter {
           return CustomTransitionPage(
             key: state.pageKey,
             child: const QuickCalculationScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+          );
+        },
+      ),
+       GoRoute(
+        path: '/puzzles',
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const NumberPuzzleScreen(),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return FadeTransition(opacity: animation, child: child);
             },

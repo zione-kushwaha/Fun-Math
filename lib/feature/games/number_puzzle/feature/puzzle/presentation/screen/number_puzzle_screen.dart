@@ -3,7 +3,6 @@ import 'package:flutter/scheduler.dart'; // Add this for WidgetBinding
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fun_math/core/data/difficulty_type.dart';
-import 'package:fun_math/feature/games/number_puzzle/feature/puzzle/domain/model/number_puzzle.dart';
 import 'package:fun_math/feature/games/number_puzzle/feature/puzzle/presentation/provider/number_puzzle_providers.dart';
 import 'package:fun_math/feature/games/number_puzzle/feature/puzzle/presentation/state/number_puzzle_state.dart';
 import 'package:fun_math/feature/games/number_puzzle/feature/puzzle/presentation/widgets/puzzle_controls.dart';
@@ -12,7 +11,7 @@ import 'package:fun_math/feature/games/number_puzzle/feature/puzzle/presentation
 import 'package:fun_math/feature/games/number_puzzle/feature/puzzle/presentation/widgets/puzzle_tile.dart';
 
 class NumberPuzzleScreen extends ConsumerStatefulWidget {
-  const NumberPuzzleScreen({Key? key}) : super(key: key);
+  const NumberPuzzleScreen({super.key});
 
   @override
   ConsumerState<NumberPuzzleScreen> createState() => _NumberPuzzleScreenState();

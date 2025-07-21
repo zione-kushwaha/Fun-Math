@@ -135,7 +135,7 @@ class NumberPuzzleViewScreen extends StatelessWidget {
                       subtitle: 'Solve the number puzzle',
                       color: Colors.teal,
                       delay: 400,
-                      onTap: () => context.push('/puzzle_game'),
+                      onTap: () => context.push('/puzzles'),
                     ),
                     GameOptionCard(
                       icon: Icons.grid_view_rounded,
